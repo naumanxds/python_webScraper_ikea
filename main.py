@@ -13,7 +13,7 @@ INCREMENT_ONE = 1
 SLEEP_SEC = 0.5
 
 # create file with time attached to it for safty purposes
-fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.csv', 'w', encoding="utf-8")
+fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
 options = webdriver.ChromeOptions();
@@ -25,7 +25,7 @@ def getHtml(url):
     try:
         driver.get(url)
         html = driver.execute_script('return document.documentElement.outerHTML')
-        return BeautifulSoup(html, 'lxml')
+        return BeautifulSoup(html, 'html.parser')
 
     except Exception as e:
         print('     >> Error in Fetching HTML from Url => ' + url)
