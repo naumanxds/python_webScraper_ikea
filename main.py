@@ -2,30 +2,26 @@ import time
 import csv
 
 from datetime import datetime
-from selenium import webdriver
+from requests_html import HTMLSession
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
 # constants used in code
-BASE_URL = 'https://www.amazon.ae'
 NOT_FOUND = 'None'
 INCREMENT_ONE = 1
-SLEEP_SEC = 0.5
 
 # create file with time attached to it for safty purposes
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
-options = webdriver.ChromeOptions();
-options.add_argument('--headless');
-driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # get html of the provided page url
 def getHtml(url):
     try:
-        driver.get(url)
-        html = driver.execute_script('return document.documentElement.outerHTML')
-        return BeautifulSoup(html, 'html.parser')
+        session = HTMLSession()
+        r = session.get(url)
+        r.html.render()
+        return BeautifulSoup(r.html.html, 'lxml')
 
     except Exception as e:
         print('     >> Error in Fetching HTML from Url => ' + url)
@@ -104,7 +100,6 @@ def iterateLinks(subLinks):
 
                 writeFile([title, price, description, careInstructions, environmentMaterial, size] + picArr, l)
                 print('     == Link Done => ' + l)
-                time.sleep(SLEEP_SEC)
             except:
                 print('     >> Error in Fetching Data from Url => ' + l)
                 print('     >> ERRROR => ' + format(e))
