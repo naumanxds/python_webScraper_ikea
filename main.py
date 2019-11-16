@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 BASE_URL = 'https://www.amazon.ae'
 NOT_FOUND = 'None'
 INCREMENT_ONE = 1
-SLEEP_SEC = 1
+SLEEP_SEC = 0.5
 
 # create file with time attached to it for safty purposes
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.csv', 'w', encoding="utf-8")
@@ -89,19 +89,24 @@ def iterateLinks(subLinks):
                 else:
                     size = 'Size Not Found'
 
-                pictures = html.find_all('li', {'class' : 'range-carousel-bullets__bullet js-range-carousel-bullets__bullet'})
+                pictures = html.find('ul', {'class' : 'range-carousel-bullets js-carousel-bullets'})
                 picArr = []
                 if str(pictures) != NOT_FOUND:
+                    pictures = pictures.find_all('img')
                     for pic in pictures:
-                        picArr.append(pic.find('img').get('src'))
+                        picArr.append(pic.get('src'))
                 else:
-                    picArr = ['Pictures Not Found']
+                    pictures = html.find('div', {'class' : 'range-carousel__image-container js-range-carousel__image-container'})
+                    if str(pictures) != NOT_FOUND:
+                        picArr.append(pictures.find('img').get('src'))
+                    else:
+                        picArr.append('Pictures Not Found')
 
-                writeFile([title, price, description, careInstructions, environmentMaterial, size] + picArr, subLinks)
+                writeFile([title, price, description, careInstructions, environmentMaterial, size] + picArr, l)
                 print('     == Link Done => ' + l)
                 time.sleep(SLEEP_SEC)
             except:
-                print('     >> Error in Fetching Data from Url => ' + subLinks)
+                print('     >> Error in Fetching Data from Url => ' + l)
                 print('     >> ERRROR => ' + format(e))
 
 # input for user
