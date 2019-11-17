@@ -3,7 +3,6 @@ import csv
 
 from datetime import datetime
 from requests_html import HTMLSession
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
 # constants used in code
