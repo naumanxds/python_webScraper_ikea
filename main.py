@@ -23,7 +23,7 @@ def getHtml(url):
     try:
         r = session.get(url, headers=header, timeout=RESPONSE_WAIT)
         r.html.render(timeout=RESPONSE_WAIT)
-        return BeautifulSoup(r.html.html, 'lxml')
+        return BeautifulSoup(r.html.html, 'html.parser')
 
     except Exception as e:
         print('     >> Error in Fetching HTML from Url => ' + url)
