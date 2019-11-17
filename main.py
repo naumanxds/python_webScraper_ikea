@@ -9,23 +9,26 @@ from bs4 import BeautifulSoup
 # constants used in code
 NOT_FOUND = 'None'
 INCREMENT_ONE = 1
+RESPONSE_WAIT = 10000
 
 # create file with time attached to it for safty purposes
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
+session = HTMLSession()
+header = {'User-agent': 'Mozilla/5.0'}
 
 # get html of the provided page url
 def getHtml(url):
     try:
-        session = HTMLSession()
-        r = session.get(url)
-        r.html.render()
+        r = session.get(url, headers=header, timeout=RESPONSE_WAIT)
+        r.html.render(timeout=RESPONSE_WAIT)
         return BeautifulSoup(r.html.html, 'lxml')
 
     except Exception as e:
         print('     >> Error in Fetching HTML from Url => ' + url)
         print('     >> ERRROR => ' + format(e))
+
     return False
 
 # write in file
@@ -105,7 +108,7 @@ def iterateLinks(subLinks):
                 print('     >> ERRROR => ' + format(e))
 
 # input for user
-enteredUrl = input('Please Enter Starting Point for Scrapper: ')
+enteredUrl = input('Please Enter Starting Point for Scrapper: ').rstrip('/')
 enteredUrl = enteredUrl.split('/?page=')[0]
 print('=== Starting Scrapping ===')
 count = 1
