@@ -2,7 +2,11 @@ import time
 import csv
 
 from datetime import datetime
-from requests_html import HTMLSession
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+
+
 from bs4 import BeautifulSoup
 
 # constants used in code
@@ -14,15 +18,17 @@ RESPONSE_WAIT = 10000
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
-session = HTMLSession()
-header = {'User-agent': 'Mozilla/5.0'}
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+
 
 # get html of the provided page url
 def getHtml(url):
     try:
-        r = session.get(url, headers=header, timeout=RESPONSE_WAIT)
-        r.html.render(timeout=RESPONSE_WAIT)
-        return BeautifulSoup(r.html.html, 'html.parser')
+        driver.get(url)
+        driver.execute_script('script')
+        return BeautifulSoup(driver.page_source, 'html.parser')
 
     except Exception as e:
         print('     >> Error in Fetching HTML from Url => ' + url)
