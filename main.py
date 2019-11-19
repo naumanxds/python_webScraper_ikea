@@ -3,11 +3,13 @@ import csv
 
 from datetime import datetime
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+from bs4 import BeautifulSoup
+# from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
+from webdrivermanager import ChromeDriverManager
 
-from bs4 import BeautifulSoup
+
 
 # constants used in code
 NOT_FOUND = 'None'
@@ -18,10 +20,11 @@ RESPONSE_WAIT = 10000
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
+manager = ChromeDriverManager()
+path = manager.download_and_install()
 chrome_options = Options()
 chrome_options.add_argument("--headless")
-driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
-
+driver = webdriver.Chrome(executable_path=path[1], options=chrome_options)
 
 # get html of the provided page url
 def getHtml(url):
