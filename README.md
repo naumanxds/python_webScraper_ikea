@@ -1,6 +1,11 @@
 == Installation Guide ==
 ========================
 
+*NOTE*
+=> you need to have firefox browser installed in your system
+   if you dont have it kindly install it before the procedure
+**
+
 1. Download main.py
 2. Open the folder containing main.py
 3. Press 'Shift' and 'Mouse Right Click' inside the folder 

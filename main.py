@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.options import Options
 
-
 # constants used in code
 NOT_FOUND = 'None'
 INCREMENT_ONE = 1
