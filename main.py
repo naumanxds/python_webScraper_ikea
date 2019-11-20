@@ -4,33 +4,28 @@ import csv
 from datetime import datetime
 from selenium import webdriver
 from bs4 import BeautifulSoup
-# from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-
-from webdrivermanager import ChromeDriverManager
-
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.options import Options
 
 
 # constants used in code
 NOT_FOUND = 'None'
 INCREMENT_ONE = 1
-RESPONSE_WAIT = 10000
 
 # create file with time attached to it for safty purposes
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
-manager = ChromeDriverManager()
-path = manager.download_and_install()
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-driver = webdriver.Chrome(executable_path=path[1], options=chrome_options)
+manager = GeckoDriverManager()
+browserOptions = Options()
+browserOptions.add_argument("--headless")
+driver = webdriver.Chrome(executable_path=manager.install(), options=browserOptions)
 
 # get html of the provided page url
 def getHtml(url):
     try:
         driver.get(url)
-        driver.execute_script('script')
+        driver.execute_script('return document.documentElement.outerHTML')
         return BeautifulSoup(driver.page_source, 'html.parser')
 
     except Exception as e:
