@@ -11,7 +11,7 @@ NOT_FOUND = 'None'
 INCREMENT_ONE = 1
 
 # create file with time attached to it for safty purposes
-fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%Y-%m-%d') + '.csv', 'w', encoding="utf-8")
+fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%H-%M-%S') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
 manager = GeckoDriverManager()
