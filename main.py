@@ -141,4 +141,5 @@ writeFile([
 
 iterateLinks(links)
 fHandle.close()
+driver.quit()
 print('=== Scrapping Finished ===')
