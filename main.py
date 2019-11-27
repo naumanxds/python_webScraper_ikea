@@ -17,7 +17,7 @@ fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%H-%M-%S') + '.csv
 manager = GeckoDriverManager()
 browserOptions = Options()
 browserOptions.add_argument("--headless")
-driver = webdriver.Chrome(executable_path=manager.install(), options=browserOptions)
+driver = webdriver.Firefox(executable_path=manager.install(), options=browserOptions)
 
 # get html of the provided page url
 def getHtml(url):
