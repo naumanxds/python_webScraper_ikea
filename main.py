@@ -3,8 +3,8 @@ import csv
 from datetime import datetime
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.firefox.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
 # constants used in code
 NOT_FOUND = 'None'
@@ -14,10 +14,10 @@ INCREMENT_ONE = 1
 fHandle = open('csvFileCreatedAt-' + datetime.now().strftime('%H-%M-%S') + '.csv', 'w', encoding="utf-8")
 
 # create browser instance
-manager = GeckoDriverManager()
 browserOptions = Options()
 browserOptions.add_argument("--headless")
-driver = webdriver.Firefox(executable_path=manager.install(), options=browserOptions)
+driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=browserOptions)
+driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 
 # get html of the provided page url
 def getHtml(url):
